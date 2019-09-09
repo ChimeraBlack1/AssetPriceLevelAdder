@@ -24,25 +24,38 @@ NewWorkbookName = "myNewWb.xls"
 
 # end of excel sheet (report for perry)
 endOfXLSheet = 3587
+endOfWells = 2152
 
-for x in range(1,10):
 
+for x in range(1,endOfWells):
 
-  
-  # wellsSerial = sheet.cell_value(x,5)
-  # wellsAssetPrice = sheet.cell_value(x,6)
-  # DLLAssetPrice = sheet2.cell_value(x,19)
-  # DLLserial = sheet2.cell_value(x,22)
+  wellsSerial = sheet.cell_value(x,5)
+  wellsAssetPrice = sheet.cell_value(x,6)
+
+  try:
+    DLLAssetPrice = sheet2.cell_value(x,19)
+    DLLserial = sheet2.cell_value(x,22)
+  except:
+    continue
 
   for y in range(1, endOfXLSheet):
     testSerial = sheet3.cell_value(y,10)
+    
+    if testSerial == "":
+      break
     if testSerial == wellsSerial:
-      worksheet.write(x,1, testSerial)
-      worksheet.write(x,2, wellsAssetPrice)
+      try:
+        worksheet.write(y,0, testSerial)
+        worksheet.write(y,1, wellsAssetPrice)
+      except:
+        continue
       break
     if testSerial == DLLserial:
-      worksheet.write(x,4, testSerial)
-      worksheet.write(x,5, DLLAssetPrice)
+      try:
+        worksheet.write(y,0, testSerial)
+        worksheet.write(y,1, DLLAssetPrice)
+      except:
+        continue
       break
 
 workbook.save(NewWorkbookName)
